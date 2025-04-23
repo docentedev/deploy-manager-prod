@@ -1,0 +1,2 @@
+/* claudio.dcv@gmail.com */
+"use strict";const{Sequelize:e}=require("sequelize"),t=new e({dialect:"sqlite",storage:"./database.sqlite",logging:!1,define:{timestamps:!1}});t.authenticate().then((()=>{})).catch((()=>{})),module.exports=t;

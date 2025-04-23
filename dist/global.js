@@ -1,0 +1,2 @@
+/* claudio.dcv@gmail.com */
+"use strict";require("dotenv").config();const e={params:{appName:process.env.APP_NAME||"Deploy App",socketUrl:process.env.SOCKET_URL||"http://localhost:3001",socketPath:process.env.SOCKET_PATH||"/socket.io"}};exports.global=e;

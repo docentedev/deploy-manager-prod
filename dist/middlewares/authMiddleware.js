@@ -1,0 +1,2 @@
+/* claudio.dcv@gmail.com */
+"use strict";const e=require("jsonwebtoken"),o=(o,r,t)=>{const n=o.cookies.authToken;if(!n)return r.redirect("/login");try{e.verify(n,"2pnf48139o221fkm22MOI=80");const r=e.decode(n);o.user=r,t()}catch(e){return r.clearCookie("authToken"),r.redirect("/login")}};module.exports=o;

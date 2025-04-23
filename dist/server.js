@@ -1,0 +1,2 @@
+/* claudio.dcv@gmail.com */
+"use strict";const e=require("http"),{initSocket:r}=require("./socket"),t=require("./app"),{global:i}=require("./global"),o=e.createServer(t);r(o,i.params),module.exports=o;

@@ -1,0 +1,108 @@
+<%- include('../partials/header.ejs', { title: 'Deploy Manager' }) %>
+
+    <div class="container py-4">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h1 class="h2">Deploy Log Details</h1>
+            <div class="btn-group">
+                <a href="javascript:history.back()" class="btn btn-secondary">
+                    <i class="bi bi-arrow-left"></i> Back to Logs
+                </a>
+            </div>
+        </div>
+
+        <% if (error) { %>
+            <div class="card bg-danger text-white mb-4">
+                <div class="card-header">
+                    <h3 class="h5 mb-0">Error</h3>
+                </div>
+                <div class="card-body">
+                    <p class="mb-0">
+                        <%= error %>
+                    </p>
+                </div>
+                <div class="card-footer">
+                    <a href="javascript:history.back()" class="btn btn-outline-light">
+                        <i class="bi bi-arrow-left"></i> Go Back
+                    </a>
+                </div>
+            </div>
+            <% } else if (log) { %>
+                <div class="card bg-dark border-secondary mb-4">
+                    <div class="card-header">
+                        <h2 class="h4 mb-0">
+                            <%= log.type || 'Log Entry' %>
+                        </h2>
+                    </div>
+                    <div class="card-body">
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <p class="text-muted mb-1">Created:</p>
+                                <p>
+                                    <%= new Date(log.createdAt).toLocaleString() %>
+                                </p>
+                            </div>
+                            <div class="col-md-6">
+                                <p class="text-muted mb-1">Status:</p>
+                                <% if (log.status==='success' ) { %>
+                                    <span class="badge bg-success">
+                                        <%= log.status %>
+                                    </span>
+                                    <% } else if (log.status==='error' || log.status==='failure' ) { %>
+                                        <span class="badge bg-danger">
+                                            <%= log.status %>
+                                        </span>
+                                        <% } else { %>
+                                            <span class="badge bg-warning text-dark">
+                                                <%= log.status %>
+                                            </span>
+                                            <% } %>
+                            </div>
+                        </div>
+
+                        <% if (log.deployConfigId) { %>
+                            <div class="row mb-3">
+                                <div class="col-12">
+                                    <p class="text-muted mb-1">Config ID:</p>
+                                    <p>
+                                        <%= log.deployConfigId %>
+                                    </p>
+                                </div>
+                            </div>
+                            <% } %>
+
+                                <% if (log.output) { %>
+                                    <div class="row mb-3">
+                                        <div class="col-12">
+                                            <h3 class="h5 mb-3">Log Details</h3>
+                                            <div id="logs" class="bg-black p-3 overflow-auto"
+                                                style="max-height: 500px; font-family: monospace; font-size: 0.9rem; color: #00ff00;">
+                                                <pre><%= log.output %></pre>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <% } %>
+                    </div>
+                    <div class="card-footer d-flex justify-content-between">
+                        <a href="javascript:history.back()" class="btn btn-outline-secondary">
+                            <i class="bi bi-arrow-left"></i> Back to Logs
+                        </a>
+                        <a href="/deploy-configs/<%= log.deployConfigId %>" class="btn btn-primary">
+                            <i class="bi bi-gear"></i> View Config
+                        </a>
+                    </div>
+                </div>
+                <% } else { %>
+                    <div class="card bg-warning text-dark mb-4">
+                        <div class="card-body">
+                            <p class="mb-0">No log information available.</p>
+                        </div>
+                        <div class="card-footer">
+                            <a href="javascript:history.back()" class="btn btn-outline-dark">
+                                <i class="bi bi-arrow-left"></i> Go Back
+                            </a>
+                        </div>
+                    </div>
+                    <% } %>
+    </div>
+
+    <%- include('../partials/footer.ejs') %>

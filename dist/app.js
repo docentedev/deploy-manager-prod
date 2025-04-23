@@ -1,0 +1,2 @@
+/* claudio.dcv@gmail.com */
+"use strict";const e=require("express"),s=require("cookie-parser"),i=require("path"),{global:r}=require("./global"),u=e();u.set("view engine","ejs"),u.set("views",i.join(__dirname,"views")),u.use(e.static(i.join(__dirname,"public"))),u.use(e.urlencoded({extended:!0})),u.use(e.json({limit:"50mb"})),u.use(s());const o=require("./routes");u.use("/",o),module.exports=u;

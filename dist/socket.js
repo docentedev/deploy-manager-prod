@@ -1,0 +1,2 @@
+/* claudio.dcv@gmail.com */
+"use strict";const{Server:e}=require("socket.io");let t;function n(n,o){t=new e(n,{path:o.socketPath}),t.on("connection",(e=>{e.emit("test",{message:"Connection successful!"}),e.on("disconnect",(()=>{}))}))}function o(){if(!t)throw new Error("Socket.io has not been initialized!");return t}module.exports={initSocket:n,getSocket:o};

@@ -1,0 +1,156 @@
+<%- include('../partials/header.ejs', { title: 'Deploy Manager' }) %>
+
+    <div class="container py-4">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h1 class="h2">Deploy Config: <%= config.name %>
+            </h1>
+            <div class="btn-group">
+                <a href="/deploy-configs/<%= config.id %>" class="btn btn-secondary">
+                    <i class="bi bi-arrow-left"></i> Back to Config
+                </a>
+                <a href="/deploy-configs" class="btn btn-outline-secondary">
+                    <i class="bi bi-list"></i> All Configs
+                </a>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-12">
+                <!-- Action Card -->
+                <div class="card bg-dark border-secondary mb-4">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <h2 class="h4 mb-0">Deploy Actions</h2>
+                        <a href="/deploy-configs/<%= config.id %>/logs" class="btn btn-sm btn-info">
+                            <i class="bi bi-clock-history"></i> View History
+                        </a>
+                    </div>
+                    <div class="card-body">
+                        <p>You're about to run deployment on: <strong>
+                                <%= config.name %>
+                            </strong></p>
+                        <button id="deploy-api" class="btn btn-success btn-lg mb-3">
+                            <i class="bi bi-play-fill"></i> Start Deployment
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Logs Card -->
+                <div class="card bg-dark border-secondary">
+                    <div class="card-header">
+                        <h2 class="h4 mb-0">Deployment Logs</h2>
+                    </div>
+                    <div class="card-body p-0">
+                        <div id="logs" class="bg-black p-3 overflow-auto"
+                            style="max-height: 500px; font-family: monospace; font-size: 0.9rem; color: #00ff00;"></div>
+                    </div>
+                    <div class="card-footer text-muted">
+                        <small>Live logs are displayed here during deployment</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Construir la URL del script de Socket.io basado en la ubicación actual
+        const socket = io('<%= socketUrl %>', {
+            path: '<%= socketPath %>',
+            transports: ['websocket'], // Usar solo WebSockets
+            query: { EIO: '4' }, // Opciones adicionales
+        });
+
+        socket.on('test', (data) => {
+            console.log(data.message); // Debería imprimir "Connection successful!"
+        });
+
+        function addLog(message, type = 'info') {
+            const log = document.createElement('pre');
+            log.textContent = message;
+            log.className = `log-${type} mb-0 p-1`;
+
+            // Estilos según el tipo de mensaje
+            switch (type) {
+                case 'error':
+                    log.style.color = '#ff5252';
+                    break;
+                case 'warning':
+                    log.style.color = '#ffbd2e';
+                    break;
+                case 'success':
+                    log.style.color = '#1eff8e';
+                    break;
+                default:
+                    log.style.color = '#00ff00';
+            }
+
+            logsDiv.appendChild(log);
+            logsDiv.scrollTop = logsDiv.scrollHeight; // Auto-scroll al final
+        }
+
+        const logsDiv = document.getElementById('logs');
+
+        // Botón para desplegar el API
+        document.getElementById('deploy-api').addEventListener('click', function () {
+            // Cambiar botón a estado de carga
+            this.disabled = true;
+            this.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Deploying...';
+            logsDiv.innerHTML = '';
+
+            fetch('/deploy/<%= config.id %>', {
+                method: 'POST',
+            })
+                .then((response) => response.json())
+                .then((data) => {
+                    if (data.success) {
+                        addLog('[Deply] Deploy started successfully.', 'success');
+                    } else {
+                        addLog(`[Deply] Error: ${data.message}`, 'error');
+                    }
+                })
+                .catch((error) => {
+                    addLog(`[Deply] Network Error: ${error.message}`, 'error');
+                }).finally(() => {
+                    resetDeployButton();
+                });
+        });
+
+        // Función para resetear el botón
+        function resetDeployButton() {
+            const deployButton = document.getElementById('deploy-api');
+            deployButton.disabled = false;
+            deployButton.innerHTML = '<i class="bi bi-play-fill"></i> Start Deployment';
+        }
+
+        // Escuchar actualizaciones en tiempo real usando Socket.io
+        socket.on('deploy-api', (data) => {
+            addLog(`${data.message}`, data.type);
+
+            // Si es mensaje final, habilitar botón de nuevo
+            if (data.message.includes("completed") || data.message.includes("failed") ||
+                data.type === "error" || data.type === "success") {
+                resetDeployButton();
+            }
+        });
+
+        // log socket connection errors
+        socket.on('connect_error', (error) => {
+            addLog(`[Socket] Connection Error: ${error.message}`, 'error');
+            resetDeployButton(); // También restaurar el botón en caso de error de conexión
+        });
+
+        // log socket disconnection events
+        socket.on('disconnect', (reason) => {
+            addLog(`[Socket] Disconnected: ${reason}`, 'warning');
+            // Si se desconecta, también deberíamos restaurar el botón
+            if (reason !== "io client disconnect") {
+                resetDeployButton();
+            }
+        });
+
+        // log socket reconnection events
+        socket.on('reconnect', (attemptNumber) => {
+            addLog(`[Socket] Reconnected after ${attemptNumber} attempts.`, 'info');
+        });
+    </script>
+
+    <%- include('../partials/footer.ejs') %>

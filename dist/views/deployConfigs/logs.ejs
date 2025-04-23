@@ -1,0 +1,56 @@
+<%- include('../partials/header.ejs', { title: 'Deploy Manager' }) %>
+
+<div class="container py-4">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h1 class="h2">Deploy Configs Logs</h1>
+    <div class="btn-group">
+      <a href="/deploy-configs/<%= id %>/action" class="btn btn-primary">
+        <i class="bi bi-arrow-left"></i> Back to Action
+      </a>
+      <a href="/deploy-configs" class="btn btn-secondary">
+        <i class="bi bi-list"></i> Back to Deploy Configs
+      </a>
+    </div>
+  </div>
+
+  <div class="card bg-dark border-secondary">
+    <div class="card-body">
+      <div class="table-responsive">
+        <table class="table table-dark table-striped table-hover">
+          <thead>
+            <tr>
+              <th scope="col">Id</th>
+              <th scope="col">Created by</th>
+              <th scope="col">Status</th>
+              <th scope="col">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% logs.forEach(log => { %>
+              <tr>
+                <td><%= log.id %></td>
+                <td><%= log.User ? log.User.username : 'Unknown' %></td>
+                <td>
+                  <% if (log.status === 'success') { %>
+                    <span class="badge bg-success"><%= log.status %></span>
+                  <% } else if (log.status === 'failure') { %>
+                    <span class="badge bg-danger"><%= log.status %></span>
+                  <% } else { %>
+                    <span class="badge bg-warning text-dark"><%= log.status %></span>
+                  <% } %>
+                </td>
+                <td>
+                  <a href="/deploy-configs/<%= id %>/logs/<%= log.id %>" class="btn btn-sm btn-info">
+                    <i class="bi bi-eye"></i> View Log
+                  </a>
+                </td>
+              </tr>
+            <% }) %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<%- include('../partials/footer.ejs') %>

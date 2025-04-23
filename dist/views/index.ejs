@@ -1,0 +1,98 @@
+<%- include('partials/header.ejs', { title: 'Deploy Manager' }) %>
+
+<div class="container py-5">
+  <div class="row justify-content-center">
+    <div class="col-lg-8 text-center">
+      <h1 class="display-4 mb-4">Deploy Manager</h1>
+      <p class="lead mb-5">A powerful tool for managing software deployments with ease.</p>
+      
+      <div class="d-grid gap-3 d-md-flex justify-content-md-center mb-5">
+        <a href="/deploy-configs" class="btn btn-primary btn-lg px-4">
+          <i class="bi bi-list"></i> View All Configs
+        </a>
+        <a href="/deploy-configs/create" class="btn btn-success btn-lg px-4">
+          <i class="bi bi-plus-circle"></i> Create New Config
+        </a>
+      </div>
+    </div>
+  </div>
+  
+  <div class="row g-4">
+    <div class="col-md-4">
+      <div class="card bg-dark border-secondary h-100">
+        <div class="card-body text-center">
+          <i class="bi bi-gear text-primary mb-3" style="font-size: 2.5rem;"></i>
+          <h3 class="card-title h5">Configure</h3>
+          <p class="card-text">Create and configure deployment settings for your applications.</p>
+          <a href="/deploy-configs/create" class="btn btn-outline-primary">Configure Now</a>
+        </div>
+      </div>
+    </div>
+    
+    <div class="col-md-4">
+      <div class="card bg-dark border-secondary h-100">
+        <div class="card-body text-center">
+          <i class="bi bi-play-circle text-success mb-3" style="font-size: 2.5rem;"></i>
+          <h3 class="card-title h5">Deploy</h3>
+          <p class="card-text">Run deployments with a single click and monitor progress in real-time.</p>
+          <a href="/deploy-configs" class="btn btn-outline-success">Deploy Now</a>
+        </div>
+      </div>
+    </div>
+    
+    <div class="col-md-4">
+      <div class="card bg-dark border-secondary h-100">
+        <div class="card-body text-center">
+          <i class="bi bi-file-earmark-text text-info mb-3" style="font-size: 2.5rem;"></i>
+          <h3 class="card-title h5">Monitor</h3>
+          <p class="card-text">Review deployment logs and track the history of your deployments.</p>
+          <a href="/deploy-configs" class="btn btn-outline-info">View Logs</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <% if (typeof recentDeployments !== 'undefined' && recentDeployments.length > 0) { %>
+  <div class="row mt-5">
+    <div class="col-12">
+      <h2 class="h4 mb-4">Recent Deployments</h2>
+      <div class="table-responsive">
+        <table class="table table-dark table-striped table-hover">
+          <thead>
+            <tr>
+              <th scope="col">Config</th>
+              <th scope="col">Status</th>
+              <th scope="col">Date</th>
+              <th scope="col">Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% recentDeployments.forEach(deployment => { %>
+            <tr>
+              <td><%= deployment.config.name %></td>
+              <td>
+                <% if (deployment.status === 'success') { %>
+                <span class="badge bg-success">Success</span>
+                <% } else if (deployment.status === 'failure') { %>
+                <span class="badge bg-danger">Failed</span>
+                <% } else { %>
+                <span class="badge bg-warning text-dark">In Progress</span>
+                <% } %>
+              </td>
+              <td><%= new Date(deployment.createdAt).toLocaleString() %></td>
+              <td>
+                <a href="/deploy-configs/<%= deployment.config.id %>/logs/<%= deployment.id %>" class="btn btn-sm btn-info">
+                  <i class="bi bi-eye"></i> View
+                </a>
+              </td>
+            </tr>
+            <% }); %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  <% } %>
+</div>
+
+<%- include('partials/footer.ejs') %>

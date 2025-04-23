@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="es-CL">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>
+        Deploy Manager
+    </title>
+    <link rel="icon" href="/logo.png" type="image/png">
+    <link rel="apple-touch-icon" href="/logo.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/logo.png">
+    <link rel="apple-touch-icon" sizes="32x32" href="/logo.png">
+    <link rel="apple-touch-icon" sizes="192x192" href="/logo.png">
+    <link rel="apple-touch-icon" sizes="16x16" href="/logo.png">
+    <link rel="manifest" href="/site.webmanifest">
+    <link rel="mask-icon" href="/logo.png" color="#5bbad5">
+    <meta name="msapplication-TileColor" content="#000000">
+    <meta name="theme-color" content="#000000">
+    <link rel="stylesheet" href="/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="/bootstrap.min.css">
+    <link rel="stylesheet" href="/style.css">
+    <script src="/socket.io.js"></script>
+</head>
+
+<body data-bs-theme="dark" class="bg-dark text-white">
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark border-bottom">
+            <div class="container">
+                <a class="navbar-brand" href="/deploy-configs">
+                    <img src="/logo.png" alt="Logo" width="30" height="30" class="d-inline-block align-text-top">
+                    Deploy Manager
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav ms-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" href="/">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/deploy-configs">Deploy Configs</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/deploy-configs/create">New Deploy</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/users">Users</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/logout">Logout</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <main class="container">

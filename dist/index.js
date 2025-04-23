@@ -1,0 +1,2 @@
+/* claudio.dcv@gmail.com */
+"use strict";const e=require("./db"),r=require("./server"),s=require("./app"),t=require("./routes");(async()=>{try{await e.sync({force:!1})}catch(e){process.exit(1)}})(),s.use(t);const d=process.env.PORT||3001;r.listen(d,(()=>{"::"===r.address().address||r.address().address,r.address().port,require("https").Server}));

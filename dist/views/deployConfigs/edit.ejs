@@ -1,0 +1,50 @@
+<%- include('../partials/header.ejs', { title: 'Deploy Manager' }) %>
+
+<div class="container py-4">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h1 class="h2">Edit Deploy Config</h1>
+    <a href="/deploy-configs" class="btn btn-secondary">
+      <i class="bi bi-arrow-left"></i> Back to List
+    </a>
+  </div>
+
+  <div class="card bg-dark border-secondary">
+    <div class="card-body">
+      <form action="/deploy-configs/<%= config.id %>" method="POST">
+        <input type="hidden" name="_method" value="PUT">
+        
+        <div class="mb-3">
+          <label for="key" class="form-label">Key:</label>
+          <input type="text" class="form-control bg-dark text-light border-secondary" id="key" name="key" value="<%= config.key %>" required>
+        </div>
+        
+        <div class="mb-3">
+          <label for="name" class="form-label">Name:</label>
+          <input type="text" class="form-control bg-dark text-light border-secondary" id="name" name="name" value="<%= config.name %>" required>
+        </div>
+        
+        <div class="mb-3">
+          <label for="baseDir" class="form-label">Base Directory:</label>
+          <input type="text" class="form-control bg-dark text-light border-secondary" id="baseDir" name="baseDir" value="<%= config.baseDir %>" required>
+        </div>
+        
+        <div class="mb-3">
+          <label for="script" class="form-label">Script:</label>
+          <textarea class="form-control bg-dark text-light border-secondary" id="script" name="script" rows="8" required><%= config.script %></textarea>
+          <div class="form-text text-muted">Enter the deployment script commands</div>
+        </div>
+        
+        <div class="d-flex justify-content-between">
+          <a href="/deploy-configs/<%= config.id %>" class="btn btn-outline-secondary">
+            <i class="bi bi-x-circle"></i> Cancel
+          </a>
+          <button type="submit" class="btn btn-primary">
+            <i class="bi bi-save"></i> Save Changes
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<%- include('../partials/footer.ejs') %>

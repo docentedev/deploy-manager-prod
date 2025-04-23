@@ -1,0 +1,2 @@
+/* claudio.dcv@gmail.com */
+"use strict";const e=require("jsonwebtoken"),r=require("bcrypt"),{User:n}=require("../db/models"),s=async(s,a,o)=>{const{username:i,password:d}=s.body;if(!i||!d)return a.render("login",{error:"Username and password are required"});const t=await n.findOne({where:{username:i}});if(r.hash(d,10,(async()=>{})),!t||!await r.compare(d,t.password))return a.render("login",{error:"Invalid credentials"});const u=e.sign({id:t.id,username:t.username},"2pnf48139o221fkm22MOI=80",{expiresIn:"24h"});a.locals.token=u,o()};module.exports=s;
