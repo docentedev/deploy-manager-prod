@@ -2,7 +2,7 @@ module.exports = {
     apps: [
       {
         name: 'deploy-app',    // Nombre de la aplicación
-        script: './deploy-app.js', // Ruta al archivo de la aplicación
+        script: './dist/index.js', // Ruta al archivo de la aplicación
         env: {
           NODE_ENV: 'production', // Ambiente de producción
         },
