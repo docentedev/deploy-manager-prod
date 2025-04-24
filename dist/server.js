@@ -1,2 +1,2 @@
 /* claudio.dcv@gmail.com */
-"use strict";const e=require("http"),{initSocket:r}=require("./socket"),t=require("./app"),{global:i}=require("./global"),o=e.createServer(t);r(o,i.params),module.exports=o;
+"use strict";var e=this&&this.__importDefault||function(e){return e&&e.__esModule?e:{default:e}};Object.defineProperty(exports,"__esModule",{value:!0});const r=e(require("./routes/env")),t=require("http"),{initSocket:u}=require("./socket"),o=require("./app"),{global:i}=require("./global"),s=t.createServer(o);u(s,i.params),o.use(r.default),module.exports=s;

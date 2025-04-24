@@ -1,0 +1,2 @@
+/* claudio.dcv@gmail.com */
+"use strict";var e=this&&this.__importDefault||function(e){return e&&e.__esModule?e:{default:e}};Object.defineProperty(exports,"__esModule",{value:!0});const t=e(require("express")),r=require("../controllers/envController"),u=t.default.Router();u.get("/env",r.renderEnvPage),u.post("/env/update",r.updateEnv),exports.default=u;

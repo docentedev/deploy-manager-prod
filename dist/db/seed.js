@@ -1,2 +1,2 @@
 /* claudio.dcv@gmail.com */
-"use strict";const a=require("./"),{User:e,DeployConfig:r,DeployLog:s}=require("./models");async function i(){try{await a.sync({force:!0}),await Promise.all([e.create({username:"dataera",email:"admin@dataera.cl",password:"Chile.2023",role:"admin",lastLogin:new Date}),e.create({username:"aurus",email:"aurus@aurus.cl",password:"admin.dep@2025",role:"admin",lastLogin:new Date})])}catch(a){}finally{await a.close()}}i();
+"use strict";const a=require("./"),{User:e}=require("./models");async function c(){try{await a.sync({force:!0}),await e.create({username:"claudio.dcv",email:"claudio.dcv@gmail.com",password:"Chile.2023",role:"admin",lastLogin:new Date})}catch(a){}finally{await a.close()}}c();

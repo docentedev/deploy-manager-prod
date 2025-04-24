@@ -1,2 +1,0 @@
-/* claudio.dcv@gmail.com */
-"use strict";Object.defineProperty(exports,"__esModule",{value:!0}),exports.executeCommand=t;const{exec:e}=require("child_process");function t(t,s,o,r){return new Promise(((n,d)=>{const u=e(t);u.stdout.on("data",(e=>{null==s||s.emit(o,{type:"stdout",message:e}),r.push(e)})),u.stderr.on("data",(e=>{null==s||s.emit(o,{type:"stderr",message:e}),r.push(e)})),u.on("close",(e=>{0===e?n():d(`Command failed with code ${e}`)}))}))}
